@@ -16,6 +16,19 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm install
-    npm run build
   displayName: 'npm install and build'
+
+- script: |
+    npm run test
+  displayName: 'run jest tests'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure for Students(2c7ba73e-974b-436b-b96b-a622afb2dcec)'
+    appType: 'apiApp'
+    WebAppName: 'monapplication'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.dist'
+    enableCustomDeployment: true
+    DeploymentType: 'webDeploy'
+  
